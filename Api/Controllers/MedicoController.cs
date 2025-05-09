@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MassTransit;
 using Core.Entity;
+using Hackathon.Api.Dto;
 
 namespace Api.Controllers
 {
@@ -34,7 +35,9 @@ namespace Api.Controllers
 
             try
             {
-                return Ok(_medicoRepository.ObterTodos());
+                return Ok(_medicoRepository
+                            .ObterTodos()
+                            .Select(m => new MedicoDto(m)));
             }
             catch (Exception e)
             {
@@ -171,7 +174,7 @@ namespace Api.Controllers
             try
             {
                 var endpoint = await _bus.GetSendEndpoint(new Uri("queue:FilaExclusao"));
-                await endpoint.Send(new IdMessage { Id = id});
+                await endpoint.Send(new IdMessage { Id = id });
                 return Ok();
             }
             catch (Exception e)
