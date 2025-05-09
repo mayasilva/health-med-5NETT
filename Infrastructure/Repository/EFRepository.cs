@@ -33,6 +33,13 @@ namespace Infrastructure.Repository
             _context.SaveChanges();
         }
 
+        public Medico? ObterAgendaPorCrm(string crm)
+        {
+            return _dbSet
+                .Include(m => m.Agendas)
+                .FirstOrDefault(entity => entity.Crm == crm);
+        }
+
         public Medico ObterPorCrm(string crm)
             => _dbSet.FirstOrDefault(entity => entity.Crm == crm);
 

@@ -70,6 +70,34 @@ namespace Api.Controllers
 
         }
 
+        /// <summary>
+        /// Necessita de autenticação via token para retornar a agenda do médico
+        /// </summary>
+        /// <param name="crm">CRM do médico</param>
+        /// <returns>Retorna a agenda do médico</returns>
+        /// <response code="200">Sucesso ao retornar a agenda</response>
+        /// <response code="500">Não foi possível retornar a agenda</response>
+        /// <response code="401">Token inválido</response>
+        [Authorize]
+        [HttpGet("{crm}/agenda")]
+        public IActionResult GetAgenda([FromRoute] string crm)
+        {
+            try
+            {
+                var medico = _medicoRepository.ObterAgendaPorCrm(crm);
+                if (medico ==null || medico.Agendas == null)
+                {
+                    return NotFound("Agenda não encontrada para o médico informado.");
+                }
+
+                return Ok(medico.Agendas.Select(a => new AgendaDto(a)));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
 
         /// <summary>
         /// Necessita de autenticação via token para cadastrar um novo contato
