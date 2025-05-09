@@ -144,51 +144,7 @@ namespace Api.Controllers
         }
 
         /// <summary>
-        /// Necessita de autenticação via token para alterar um contato
-        /// </summary>
-        /// <remarks>
-        /// Exemplo de requisição:
-        /// 
-        /// {
-        ///     "Id": "Id do Contato"
-        ///     "Nome": "Nome do Contato",
-        ///     "DDD": "DDD (Região) do telefone do contato",
-        ///     "Telefone": "Telefone do Contato",
-        ///     "Email": "Email do Contato",
-        /// }
-        /// 
-        /// </remarks>
-        /// <param name="input">Objeto de ContatoUpdate</param>
-        /// <returns>Contato alterado</returns>
-        /// <response code="200">Sucesso na inclusão da alteração do contato na fila-alteracao</response>
-        /// <response code="500">Não foi possivel alterar o contato</response>
-        /// <response code="401">Token inválido</response>
-        [Authorize]
-        [HttpPut]
-        public async Task<IActionResult> Put([FromBody] ContatoUpdateInput input)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    var endpoint = await _bus.GetSendEndpoint(new Uri("queue:FilaAlteracao"));
-                    await endpoint.Send(input);
-
-                    return Ok();
-                }
-                else
-                {
-                    return BadRequest(ModelState);
-                }
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e);
-            }
-        }
-
-        /// <summary>
-        /// Necessita de autenticação via token para excluir um contato da base de dados
+        /// Necessita de autenticação via token para excluir uma agenda
         /// </summary>
         /// <param name="id">Id do contato</param>
         /// <returns></returns>
@@ -196,12 +152,12 @@ namespace Api.Controllers
         /// <response code="500">Não foi possivel excluir o contato</response>
         /// <response code="401">Token inválido</response>
         [Authorize]
-        [HttpDelete("{id:int}")]
+        [HttpDelete("{crm}/agenda/{id:int}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
             try
             {
-                var endpoint = await _bus.GetSendEndpoint(new Uri("queue:FilaExclusao"));
+                var endpoint = await _bus.GetSendEndpoint(new Uri("queue:FilaExclusaoAgenda"));
                 await endpoint.Send(new IdMessage { Id = id });
                 return Ok();
             }

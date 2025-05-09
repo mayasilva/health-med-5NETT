@@ -15,7 +15,6 @@ namespace Consumidor.Eventos
         }
         public Task Consume(ConsumeContext<AgendaInput> context)
         {
-            Console.WriteLine("Consumindo...");
             var agenda = new Agenda()
             {
                 Data = context.Message.Data,

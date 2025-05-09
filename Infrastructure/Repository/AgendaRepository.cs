@@ -14,6 +14,16 @@ namespace Hackathon.Infrastructure.Repository
             _context = context;
         }
 
+        public void Deletar(int id)
+        {
+            var agenda = _context.Set<Agenda>().FirstOrDefault(entity => entity.Id == id);
+            if (agenda != null)
+            {
+                _context.Set<Agenda>().Remove(agenda);
+                _context.SaveChanges();
+            }
+        }
+
         void IAgendaRepository.Cadastrar(Agenda entidade)
         {
             _context.Set<Agenda>().Add(entidade);

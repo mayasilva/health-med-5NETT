@@ -7,5 +7,6 @@ namespace Core.Repository
         IList<Agenda> ObterTodos();
         
         void Cadastrar(Agenda entidade);
+        void Deletar(int id);
     }
 }

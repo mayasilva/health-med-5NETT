@@ -115,9 +115,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
-Console.WriteLine(" AEEEE >>>> MIGRATION");
-Console.WriteLine(connectionString);
-Console.WriteLine(" AEEEE >>>> CONNECTION STRING");
 await using (var scope = app.Services.CreateAsyncScope())
 await scope.ServiceProvider.GetRequiredService<ApplicationDbContext>().Database.MigrateAsync();
 

@@ -14,10 +14,8 @@ var configuration = new ConfigurationBuilder()
     .AddEnvironmentVariables()
     .Build();
 
-var filaCadastro = configuration.GetSection("MassTransit")["FilaCadastro"] ?? string.Empty;
-var filaAlteracao = configuration.GetSection("MassTransit")["FilaAlteracao"] ?? string.Empty;
-var filaExclusao =  configuration.GetSection("MassTransit")["FilaExclusao"] ?? string.Empty;
 var filaAgenda = configuration.GetSection("MassTransit")["FilaAgenda"] ?? string.Empty;
+var filaExclusaoAgenda = configuration.GetSection("MassTransit")["FilaExclusaoAgenda"] ?? string.Empty;
 var servidor = configuration.GetSection("MassTransit")["Servidor"] ?? string.Empty;
 var usuario = configuration.GetSection("MassTransit")["Usuario"] ?? string.Empty;
 var senha = configuration.GetSection("MassTransit")["Senha"] ?? string.Empty;
@@ -44,10 +42,16 @@ builder.Services.AddMassTransit(x =>
             e.Consumer<CadastroAgendaMedicoConsumidor>(context);
         });
 
+        cfg.ReceiveEndpoint(filaExclusaoAgenda, e =>
+        {
+            e.Consumer<ExclusaoAgendaMedicoConsumidor>(context);
+        });
+
         cfg.ConfigureEndpoints(context);
     });
 
     x.AddConsumer<CadastroAgendaMedicoConsumidor>();
+    x.AddConsumer<ExclusaoAgendaMedicoConsumidor>();
 });
 
 
