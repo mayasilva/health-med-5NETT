@@ -23,6 +23,7 @@ var filaCadastro = configuration.GetSection("MassTransit")["FilaCadastro"] ?? st
 var filaAlteracao = configuration.GetSection("MassTransit")["FilaAlteracao"] ?? string.Empty;
 var filaExclusao = configuration.GetSection("MassTransit")["FilaExclusao"] ?? string.Empty;
 var filaAgenda = configuration.GetSection("MassTransit")["FilaAgenda"] ?? string.Empty;
+var filaCadastroAgendamento = configuration.GetSection("MassTransit")["FilaCadastroAgendamento"] ?? string.Empty;
 var servidor = configuration.GetSection("MassTransit")["Servidor"] ?? string.Empty;
 var usuario = configuration.GetSection("MassTransit")["Usuario"] ?? string.Empty;
 var senha = configuration.GetSection("MassTransit")["Senha"] ?? string.Empty;
@@ -86,6 +87,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddScoped<IMedicoRepository, EFRepository>();
 builder.Services.AddScoped<IPacienteRepository, PacienteRepository>();
+builder.Services.AddScoped<IAgendamentoRepository, AgendamentoRepository>();
 
 builder.Services.AddMassTransit(x =>
 {

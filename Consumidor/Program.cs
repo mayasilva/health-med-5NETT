@@ -16,6 +16,7 @@ var configuration = new ConfigurationBuilder()
 
 var filaAgenda = configuration.GetSection("MassTransit")["FilaAgenda"] ?? string.Empty;
 var filaExclusaoAgenda = configuration.GetSection("MassTransit")["FilaExclusaoAgenda"] ?? string.Empty;
+var filaCadastroAgendamento = configuration.GetSection("MassTransit")["FilaCadastroAgendamento"] ?? string.Empty;
 var servidor = configuration.GetSection("MassTransit")["Servidor"] ?? string.Empty;
 var usuario = configuration.GetSection("MassTransit")["Usuario"] ?? string.Empty;
 var senha = configuration.GetSection("MassTransit")["Senha"] ?? string.Empty;
@@ -26,6 +27,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 }, ServiceLifetime.Scoped);
 
 builder.Services.AddScoped<IAgendaRepository, AgendaRepository>();
+builder.Services.AddScoped<IAgendamentoRepository, AgendamentoRepository>();
 
 builder.Services.AddMassTransit(x =>
 {
@@ -47,11 +49,17 @@ builder.Services.AddMassTransit(x =>
             e.Consumer<ExclusaoAgendaMedicoConsumidor>(context);
         });
 
+        cfg.ReceiveEndpoint(filaCadastroAgendamento, e =>
+        {
+            e.Consumer<CadastroAgendamentoConsumidor>(context);
+        });
+
         cfg.ConfigureEndpoints(context);
     });
 
     x.AddConsumer<CadastroAgendaMedicoConsumidor>();
     x.AddConsumer<ExclusaoAgendaMedicoConsumidor>();
+    x.AddConsumer<CadastroAgendamentoConsumidor>();
 });
 
 

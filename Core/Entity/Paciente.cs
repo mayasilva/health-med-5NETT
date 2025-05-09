@@ -10,5 +10,6 @@ namespace Core.Entity
         public string Cpf { get; set; } = "";
         public string Email { get; set; } = "";
         public string Senha { get; set; } = "";
+        public Agendamento[] Agendamentos {  get; set; } 
     }
 }
