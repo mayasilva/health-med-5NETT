@@ -17,7 +17,8 @@ namespace Infrastructure.Repository.Configurations
 
             builder.HasOne(p => p.Medico)
                 .WithMany(a => a.Agendas)
-                .HasForeignKey(a => a.Id);
+                .HasForeignKey(a => a.IdMedico)
+                .OnDelete(DeleteBehavior.Restrict);
 
         }
     }

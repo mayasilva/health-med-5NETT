@@ -179,5 +179,33 @@ namespace Api.Controllers
                 return BadRequest(e);
             }
         }
+
+        [Authorize]
+        [HttpPost("Agenda")]
+        public async Task<IActionResult> CriarAgenda([FromBody] AgendaInput input)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var userId = User.Claims.FirstOrDefault(c => c.Type == "id")?.Value;
+
+                    var endpoint = await _bus.GetSendEndpoint(new Uri("queue:FilaAgenda"));
+                    await endpoint.Send(input);
+
+                    Console.WriteLine($"Agendamento criado: {input.Data} {input.Hora} para o médico com CRM {input.IdMedico}");
+
+                    return Ok("Agenda criada com sucesso.");
+                }
+                else
+                {
+                    return BadRequest(ModelState);
+                }
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
     }
 }

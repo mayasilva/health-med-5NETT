@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250509005109_Inicial")]
-    partial class Inicial
+    [Migration("20250509031255_IdMedicoForeign")]
+    partial class IdMedicoForeign
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,7 +28,10 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Core.Entity.Agenda", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateOnly>("Data")
                         .HasColumnType("DATE");
@@ -40,6 +43,8 @@ namespace Infrastructure.Migrations
                         .HasColumnType("INT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("IdMedico");
 
                     b.ToTable("agenda", (string)null);
                 });
@@ -116,8 +121,8 @@ namespace Infrastructure.Migrations
                 {
                     b.HasOne("Core.Entity.Medico", "Medico")
                         .WithMany("Agendas")
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("IdMedico")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Medico");

@@ -4,6 +4,7 @@ using Core.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
 
 namespace TechChallangeCadastroContatosAPI.Controllers
@@ -35,11 +36,17 @@ namespace TechChallangeCadastroContatosAPI.Controllers
                     var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Utils.CHAVE_TOKEN));
                     var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-                    var Sectoken = new JwtSecurityToken(null,
-                      null,
-                      null,
-                      expires: DateTime.Now.AddMinutes(120),
-                      signingCredentials: credentials);
+                    var claims = new[]
+                    {
+                        new Claim("id", medico.Id.ToString())
+                    };
+
+                    var Sectoken = new JwtSecurityToken(
+                        null,
+                        null,
+                        claims,
+                        expires: DateTime.Now.AddMinutes(120),
+                        signingCredentials: credentials);
 
                     var token = new JwtSecurityTokenHandler().WriteToken(Sectoken);
 

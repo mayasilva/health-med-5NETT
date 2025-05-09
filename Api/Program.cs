@@ -21,6 +21,7 @@ var jwtKey = Utils.CHAVE_TOKEN;
 var filaCadastro = configuration.GetSection("MassTransit")["FilaCadastro"] ?? string.Empty;
 var filaAlteracao = configuration.GetSection("MassTransit")["FilaAlteracao"] ?? string.Empty;
 var filaExclusao = configuration.GetSection("MassTransit")["FilaExclusao"] ?? string.Empty;
+var filaAgenda = configuration.GetSection("MassTransit")["FilaAgenda"] ?? string.Empty;
 var servidor = configuration.GetSection("MassTransit")["Servidor"] ?? string.Empty;
 var usuario = configuration.GetSection("MassTransit")["Usuario"] ?? string.Empty;
 var senha = configuration.GetSection("MassTransit")["Senha"] ?? string.Empty;
@@ -43,7 +44,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
  });
 
 builder.Services.AddControllers()
-            .AddJsonOptions(opts => opts.JsonSerializerOptions.PropertyNamingPolicy = null);
+            .AddJsonOptions(opts => {
+                opts.JsonSerializerOptions.PropertyNamingPolicy = null;
+                opts.JsonSerializerOptions.Converters.Add(new TimeOnlyJsonConverter());
+                });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(setup =>
