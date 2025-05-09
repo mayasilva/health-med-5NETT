@@ -1,5 +1,6 @@
 using Core.Repository;
 using Core.Utils;
+using Hackathon.Infrastructure.Repository;
 using Infrastructure.Repository;
 using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -84,12 +85,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 }, ServiceLifetime.Scoped);
 
 builder.Services.AddScoped<IMedicoRepository, EFRepository>();
-
-//var dbContext = builder.Services.BuildServiceProvider().GetService<ApplicationDbContext>();
-
-//Console.WriteLine("pega dbContex da var do contener : " + dbContext);
-//dbContext?.Database.Migrate();
-
+builder.Services.AddScoped<IPacienteRepository, PacienteRepository>();
 
 builder.Services.AddMassTransit(x =>
 {

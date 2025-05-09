@@ -15,10 +15,13 @@ namespace TechChallangeCadastroContatosAPI.Controllers
     {
 
         private readonly IMedicoRepository _medicoRepository;
+        private readonly IPacienteRepository _pacienteRepository;
 
-        public LoginController(IMedicoRepository medicoRepository)
+        public LoginController( IMedicoRepository medicoRepository, 
+                                IPacienteRepository pacienteRepository) 
         {
             _medicoRepository = medicoRepository;
+            _pacienteRepository = pacienteRepository;
         }
         /// <summary>
         /// Gerar token de autenticação para o medico
@@ -26,7 +29,7 @@ namespace TechChallangeCadastroContatosAPI.Controllers
         /// <param name="loginInput">usuário e senha</param>
         /// <returns>token de autenticação</returns>
         [HttpPost("medico")]
-        public IActionResult Post([FromBody] LoginInput loginInput)
+        public IActionResult LoginMedico([FromBody] LoginInput loginInput)
         {
             if (ModelState.IsValid)
             {
@@ -39,6 +42,51 @@ namespace TechChallangeCadastroContatosAPI.Controllers
                     var claims = new[]
                     {
                         new Claim("id", medico.Id.ToString())
+                    };
+
+                    var Sectoken = new JwtSecurityToken(
+                        null,
+                        null,
+                        claims,
+                        expires: DateTime.Now.AddMinutes(120),
+                        signingCredentials: credentials);
+
+                    var token = new JwtSecurityTokenHandler().WriteToken(Sectoken);
+
+                    return Ok(token);
+                }
+                else
+                {
+                    return Unauthorized("Usuário ou senha incorretos");
+                }
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+
+        }
+
+
+        /// <summary>
+        /// Gerar token de autenticação para o paciente
+        /// </summary>
+        /// <param name="loginInput">usuário e senha</param>
+        /// <returns>token de autenticação</returns>
+        [HttpPost("paciente")]
+        public IActionResult LoginPaciente([FromBody] LoginPacienteInput loginInput)
+        {
+            if (ModelState.IsValid)
+            {
+                var paciente = _pacienteRepository.ObterPorCpf(loginInput.Cpf);
+                if (paciente != null && paciente.Senha.Equals(loginInput.Senha))
+                {
+                    var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Utils.CHAVE_TOKEN));
+                    var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+                    var claims = new[]
+                    {
+                        new Claim("id", paciente.Id.ToString())
                     };
 
                     var Sectoken = new JwtSecurityToken(
