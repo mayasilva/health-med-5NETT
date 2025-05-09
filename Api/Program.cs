@@ -79,7 +79,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString);
 }, ServiceLifetime.Scoped);
 
-builder.Services.AddScoped<IContatoRepository, ContatoRepository>();
+builder.Services.AddScoped<IMedicoRepository, EFRepository>();
 
 //var dbContext = builder.Services.BuildServiceProvider().GetService<ApplicationDbContext>();
 

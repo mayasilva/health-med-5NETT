@@ -8,22 +8,11 @@ namespace Infrastructure.Repository
     {
         private readonly IConfiguration _configuration;
 
-        public ApplicationDbContext() { }
-
-        public ApplicationDbContext(IConfiguration configuration)
-        {
-            _configuration = configuration;
-        }
-
-        public DbSet<Contato> Contato { get; set; }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
+        public DbSet<Agenda> Agenda { get; set; }
         public DbSet<Medico> Medico { get; set; }
         public DbSet<Paciente> Paciente { get; set; }
-        public DbSet<Agenda> Agenda { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(_configuration.GetConnectionString("ConnectionStrings:ConnectionStrings"));
-        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);

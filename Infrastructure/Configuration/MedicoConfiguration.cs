@@ -13,6 +13,7 @@ namespace Infrastructure.Repository.Configurations
             builder.Property(p => p.Crm).HasColumnType("VARCHAR(6)").IsRequired();
             builder.Property(p => p.Name).HasColumnType("VARCHAR(100)").IsRequired();
             builder.Property(p => p.Cpf).HasColumnType("VARCHAR(11)").IsRequired();
+            builder.Property(p => p.Senha).HasColumnType("VARCHAR(100)").IsRequired();
             builder.Property(p => p.Especialidade).HasColumnType("VARCHAR(100)").IsRequired();
             builder.Property(p => p.ValorConsulta).HasColumnType("INT").IsRequired();
         }

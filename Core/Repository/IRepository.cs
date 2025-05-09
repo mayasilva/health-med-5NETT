@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace Core.Repository
 {
-    public interface IRepository<T> where T : Contato
+    public interface IRepository<T> where T : Medico
     {
         IList<T> ObterTodos();
-        IList<T> ObterPorDDD(int DDD);
         T ObterPorId(int Id);
         void Cadastrar(T entidade);
         void Alterar(T entidade);

@@ -34,7 +34,7 @@ namespace Api.Controllers
 
             try
             {
-                return Ok(_contatoRepository.ObterTodos());
+                return Ok(_medicoRepository.ObterTodos());
             }
             catch (Exception e)
             {
@@ -46,19 +46,19 @@ namespace Api.Controllers
         /// <summary>
         /// Necessita de autenticação via token para retorno o contato por Id
         /// </summary>
-        /// <param name="id">Id do contato que será retornado</param>
+        /// <param name="crm"></param>
         /// <returns>Retorna um Contato filtrado pelo Id</returns>
         /// <response code="200">Sucesso na execução ao retornar do contato</response>
         /// <response code="500">Não foi possivel retornar as informações do contato</response>
         /// <response code="401">Token inválido</response>
         [Authorize]
-        [HttpGet("PorId/{id:int}")]
-        public IActionResult Get([FromRoute] int id)
+        [HttpGet("PorCrm/{crm}")]
+        public IActionResult Get([FromRoute] string crm)
         {
 
             try
             {
-                return Ok(_contatoRepository.ObterPorId(id));
+                return Ok(_medicoRepository.ObterPorCrm(crm));
             }
             catch (Exception e)
             {
@@ -67,29 +67,6 @@ namespace Api.Controllers
 
         }
 
-        /// <summary>
-        /// Necessita de autenticação via token para retorno o contato por DDD
-        /// </summary>
-        /// <param name="ddd">DDD do contato que será retornado</param>
-        /// <returns></returns>
-        /// <response code="200">Sucesso na execução ao retornar do contato</response>
-        /// <response code="500">Não foi possivel retornar as informações do contato</response>
-        /// <response code="401">Token inválido</response>
-        [Authorize]
-        [HttpGet("GetPorDDD/{ddd:int}")]
-        public IActionResult GetPorDDD([FromRoute] int ddd)
-        {
-
-            try
-            {
-                return Ok(_contatoRepository.ObterPorDDD(ddd));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e);
-            }
-
-        }
 
         /// <summary>
         /// Necessita de autenticação via token para cadastrar um novo contato

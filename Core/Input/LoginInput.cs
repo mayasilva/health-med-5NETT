@@ -6,7 +6,7 @@ namespace Core.Input
     {
         [Required(ErrorMessage = "Campo usuário é obrigatório")]
         [DeniedValues("string", ErrorMessage = "Texto 'string' não é permitido")]
-        public required string Usuario { get; set; }
+        public required string Crm { get; set; }
 
         [Required(ErrorMessage = "Campo senha é obrigatório")]
         [DeniedValues("string", ErrorMessage = "Texto 'string' não é permitido")]

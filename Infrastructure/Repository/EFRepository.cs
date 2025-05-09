@@ -4,43 +4,40 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repository
 {
-    public class EFRepository<T> : IRepository<T> where T : Contato
+    public class EFRepository : IMedicoRepository
     {
         protected ApplicationDbContext _context;
-        protected DbSet<T> _dbSet;
+        protected DbSet<Medico> _dbSet;
 
         public EFRepository(ApplicationDbContext contexto)
         {
             _context = contexto;
-            _dbSet = _context.Set<T>();
+            _dbSet = _context.Set<Medico>();
         }
 
-        public void Alterar(T entidade)
+        public void Alterar(Medico entidade)
         {
             _dbSet.Update(entidade);
             _context.SaveChanges();
         }
 
-        public void Cadastrar(T entidade)
+        public void Cadastrar(Medico entidade)
         {
             _dbSet.Add(entidade);
             _context.SaveChanges();
         }
 
-        public void Deletar(int id)
+        public void Deletar(string crm)
         {
-            _dbSet.Remove(ObterPorId(id));
+            _dbSet.Remove(ObterPorCrm(crm));
             _context.SaveChanges();
         }
 
-        public IList<T> ObterPorDDD(int DDD) => _dbSet
-                .Where(entity => entity.DDD == DDD).ToList();
-
-        public T ObterPorId(int id)
-            => _dbSet.FirstOrDefault(entity => entity.Id == id);
+        public Medico ObterPorCrm(string crm)
+            => _dbSet.FirstOrDefault(entity => entity.Crm == crm);
 
 
-        public IList<T> ObterTodos()
+        public IList<Medico> ObterTodos()
             => _dbSet.ToList();
     }
 }

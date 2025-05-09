@@ -1,4 +1,5 @@
 ﻿using Core.Input;
+using Core.Repository;
 using Core.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -11,17 +12,25 @@ namespace TechChallangeCadastroContatosAPI.Controllers
     [ApiController]
     public class LoginController : ControllerBase
     {
+
+        private readonly IMedicoRepository _medicoRepository;
+
+        public LoginController(IMedicoRepository medicoRepository)
+        {
+            _medicoRepository = medicoRepository;
+        }
         /// <summary>
-        /// Gerar token de autenticação
+        /// Gerar token de autenticação para o medico
         /// </summary>
         /// <param name="loginInput">usuário e senha</param>
         /// <returns>token de autenticação</returns>
-        [HttpPost]
+        [HttpPost("medico")]
         public IActionResult Post([FromBody] LoginInput loginInput)
         {
             if (ModelState.IsValid)
             {
-                if (loginInput.Usuario == "usuario-fiap" && loginInput.Senha == "senha-fiap")
+                var medico = _medicoRepository.ObterPorCrm(loginInput.Crm);
+                if (medico != null && medico.Senha.Equals(loginInput.Senha))
                 {
                     var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Utils.CHAVE_TOKEN));
                     var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);

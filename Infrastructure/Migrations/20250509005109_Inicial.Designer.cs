@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250416003202_HealthMed")]
-    partial class HealthMed
+    [Migration("20250509005109_Inicial")]
+    partial class Inicial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -30,55 +30,18 @@ namespace Infrastructure.Migrations
                     b.Property<int>("Id")
                         .HasColumnType("int");
 
-                    b.Property<string>("Confirmado")
-                        .IsRequired()
-                        .HasColumnType("VARCHAR(11)");
+                    b.Property<DateOnly>("Data")
+                        .HasColumnType("DATE");
 
-                    b.Property<DateTime>("Data")
-                        .HasColumnType("DATETIME");
-
-                    b.Property<string>("Hora")
-                        .IsRequired()
-                        .HasColumnType("VARCHAR(11)");
+                    b.Property<TimeOnly>("Hora")
+                        .HasColumnType("TIME");
 
                     b.Property<int>("IdMedico")
-                        .HasColumnType("INT");
-
-                    b.Property<int>("IdPaciente")
                         .HasColumnType("INT");
 
                     b.HasKey("Id");
 
                     b.ToTable("agenda", (string)null);
-                });
-
-            modelBuilder.Entity("Core.Entity.Contato", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("DDD")
-                        .IsRequired()
-                        .HasColumnType("VARCHAR(2)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("VARCHAR(100)");
-
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasColumnType("VARCHAR(100)");
-
-                    b.Property<string>("Telefone")
-                        .IsRequired()
-                        .HasColumnType("VARCHAR(9)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("contato", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entity.Medico", b =>
@@ -102,6 +65,10 @@ namespace Infrastructure.Migrations
                         .HasColumnType("VARCHAR(100)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(100)");
+
+                    b.Property<string>("Senha")
                         .IsRequired()
                         .HasColumnType("VARCHAR(100)");
 
@@ -133,7 +100,14 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("VARCHAR(100)");
 
+                    b.Property<string>("Senha")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(100)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("Cpf")
+                        .IsUnique();
 
                     b.ToTable("paciente", (string)null);
                 });
@@ -146,23 +120,10 @@ namespace Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Core.Entity.Paciente", "Paciente")
-                        .WithMany("Agendas")
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Medico");
-
-                    b.Navigation("Paciente");
                 });
 
             modelBuilder.Entity("Core.Entity.Medico", b =>
-                {
-                    b.Navigation("Agendas");
-                });
-
-            modelBuilder.Entity("Core.Entity.Paciente", b =>
                 {
                     b.Navigation("Agendas");
                 });

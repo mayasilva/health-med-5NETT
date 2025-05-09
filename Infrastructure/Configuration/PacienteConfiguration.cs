@@ -18,6 +18,8 @@ namespace Infrastructure.Repository.Configurations
             builder.Property(p => p.Name).HasColumnType("VARCHAR(100)").IsRequired();
             builder.Property(p => p.Cpf).HasColumnType("VARCHAR(11)").IsRequired();
             builder.Property(p => p.Email).HasColumnType("VARCHAR(100)").IsRequired();
+            builder.Property(p => p.Senha).HasColumnType("VARCHAR(100)").IsRequired();
+            builder.HasIndex(p => p.Cpf).IsUnique();
         }
     }
 }

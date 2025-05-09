@@ -9,6 +9,6 @@ namespace Core.Entity
         public string Name { get; set; } = "";
         public string Cpf { get; set; } = "";
         public string Email { get; set; } = "";
-        public ICollection<Agenda> Agendas { get; set; }
+        public string Senha { get; set; } = "";
     }
 }
