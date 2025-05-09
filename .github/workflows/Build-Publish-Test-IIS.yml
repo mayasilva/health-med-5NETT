@@ -1,0 +1,31 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: Compilar e publicar aplicação no IIS com testes
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+  
+    runs-on: self-hosted
+    
+    steps:
+
+    - uses: actions/checkout@v4
+    - name: Instalar .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+    - name: Restaurar as dependências do projheto
+      run: dotnet restore .\TechChallangeCadastroCotatos\TechChallangeCadastroContatosAPI.csproj
+    - name: Compilar o projeto
+      run: dotnet build --configuration Release --no-restore .\TechChallangeCadastroCotatos\TechChallangeCadastroContatosAPI.csproj
+    - name: Copiar arquivos para pasta do IIS
+      run: xcopy /s .\TechChallangeCadastroCotatos\bin\Release\net8.0\* C:\inetpub\wwwroot\CadastroContatos\ /Y /C
+    - name: Executar testes unitários e de integração
+      run: dotnet test .\test
