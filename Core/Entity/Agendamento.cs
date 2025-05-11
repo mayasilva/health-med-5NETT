@@ -10,6 +10,7 @@ namespace Core.Entity
         public EStatus Status { get; set; }
         public int IdAgenda { get; set; }
         public int IdPaciente { get; set; }
+        public string? Justificativa { get; set; }
         public Agenda Agenda { get; set; }
         public Paciente Paciente { get; set; }
 

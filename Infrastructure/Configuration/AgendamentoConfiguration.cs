@@ -13,6 +13,7 @@ namespace Infrastructure.Repository.Configurations
             builder.Property(p => p.Status).HasColumnType("VARCHAR(10)").IsRequired();
             builder.Property(p => p.IdAgenda).HasColumnType("INT").IsRequired();
             builder.Property(p => p.IdPaciente).HasColumnType("INT").IsRequired();
+            builder.Property(p => p.Justificativa).HasColumnType("VARCHAR(200)").IsRequired(false);
 
             builder.HasOne(p => p.Agenda)
                 .WithMany(a => a.Agendamentos)

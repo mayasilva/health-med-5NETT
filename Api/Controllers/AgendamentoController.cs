@@ -23,24 +23,24 @@ namespace Api.Controllers
 
 
         /// <summary>
-        /// Necessita de autenticação via token para cadastrar um novo contato
+        /// Necessita de autenticação via token para cadastrar um novo agendamento
         /// </summary>
         /// <remarks>
         /// Exemplo de requisição:
         /// 
         /// {
-        ///     "Nome": "Nome do Contato",
-        ///     "DDD": "DDD (Região) do telefone do contato",
-        ///     "Telefone": "Telefone do Contato",
-        ///     "Email": "Email do Contato",
+        ///     "Nome": "Nome do Agendamento",
+        ///     "DDD": "DDD (Região) do telefone",
+        ///     "Telefone": "Telefone",
+        ///     "Email": "Email"
         /// }
         /// 
-        /// Observação: Não é necessario informar o Id
+        /// Observação: Não é necessário informar o Id
         /// </remarks>
-        /// <param name="input">Objeto do ContatoInput</param>
-        /// <returns>Retorna Contato cadastrado</returns>
-        /// <response code="200">Sucesso na execução da inclusão do contato na fila-cadastro</response>
-        /// <response code="500">Não foi possivel incluir um novo contato</response>
+        /// <param name="input">Objeto do AgendamentoInclusaoInput</param>
+        /// <returns>Retorna sucesso ou erro na inclusão do agendamento</returns>
+        /// <response code="200">Sucesso na execução da inclusão do agendamento na fila</response>
+        /// <response code="400">Dados inválidos ou erro na requisição</response>
         /// <response code="401">Token inválido</response>
         [Authorize]
         [HttpPost]
@@ -51,6 +51,49 @@ namespace Api.Controllers
                 if (ModelState.IsValid)
                 {
                     var endpoint = await _bus.GetSendEndpoint(new Uri("queue:FilaCadastroAgendamento"));
+                    await endpoint.Send(input);
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest(ModelState);
+                }
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+
+        }
+
+
+        
+        /// <summary>
+        /// Necessita de autenticação via token para cadastrar um novo agendamento
+        /// </summary>
+        /// <remarks>
+        /// Exemplo de requisição:
+        /// 
+        /// {
+        ///     "IdAgendamento": "1",
+        ///     "Justificativa": "Justificativa do cancelamento",
+        /// }
+        /// 
+        /// </remarks>
+        /// <param name="input">Objeto do AgendamentoCancelamentoInput</param>
+        /// <returns>Retorna sucesso ou erro no cancelamento do agendamento</returns>
+        /// <response code="200">Sucesso na execução do cancelamento do agendamento na fila</response>
+        /// <response code="400">Dados inválidos ou erro na requisição</response>
+        /// <response code="401">Token inválido</response>
+        [Authorize]
+        [HttpPost("cancelar")]
+        public async Task<IActionResult> Post([FromBody] AgendamentoCancelamentoInput input)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var endpoint = await _bus.GetSendEndpoint(new Uri("queue:FilaCancelamentoAgendamento"));
                     await endpoint.Send(input);
                     return Ok();
                 }

@@ -27,7 +27,22 @@ namespace Hackathon.Infrastructure.Repository
             _context.SaveChanges();
         }
 
+        public void Cancelar(int id, string justificativa)
+        {
+            var agendamento = _context.Set<Agendamento>().FirstOrDefault(a => a.Id == id);
+            if (agendamento == null)
+            {
+                throw new KeyNotFoundException($"Agendamento com ID {id} não encontrado.");
+            }
+
+            agendamento.Justificativa = justificativa;
+            agendamento.Status = Core.Utils.Enum.EStatus.Cancelado;
+            _context.Set<Agendamento>().Update(agendamento);
+            _context.SaveChanges();
+        }
+
         IList<Agendamento> IAgendamentoRepository.ObterTodos()
             => _context.Set<Agendamento>().ToList();
+
     }
 }

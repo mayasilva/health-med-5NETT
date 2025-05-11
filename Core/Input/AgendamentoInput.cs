@@ -6,8 +6,11 @@ namespace Core.Input
     {
         public int IdPaciente { get; set; }
         public int IdAgenda { get; set; }
+    }
 
-        //public EStatus Status { get; set; }
-
+    public class AgendamentoCancelamentoInput
+    {
+        public int IdAgendamento { get; set; }
+        public required string Justificativa { get; set; }
     }
 }

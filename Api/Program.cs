@@ -24,6 +24,7 @@ var filaAlteracao = configuration.GetSection("MassTransit")["FilaAlteracao"] ?? 
 var filaExclusao = configuration.GetSection("MassTransit")["FilaExclusao"] ?? string.Empty;
 var filaAgenda = configuration.GetSection("MassTransit")["FilaAgenda"] ?? string.Empty;
 var filaCadastroAgendamento = configuration.GetSection("MassTransit")["FilaCadastroAgendamento"] ?? string.Empty;
+var filaCancelamentoAgendamento = configuration.GetSection("MassTransit")["FilaCancelamentoAgendamento"] ?? string.Empty;
 var servidor = configuration.GetSection("MassTransit")["Servidor"] ?? string.Empty;
 var usuario = configuration.GetSection("MassTransit")["Usuario"] ?? string.Empty;
 var senha = configuration.GetSection("MassTransit")["Senha"] ?? string.Empty;
