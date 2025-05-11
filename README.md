@@ -1,6 +1,6 @@
 # Hackathon 4NETT - Health&Med 
 
-Entrega do Hackathon da fase 5 da PosTech Fiap do *grupo 32*
+Entrega do Hackathon da fase 5 da PosTech Fiap
 
  - Mayara Alves da Silva - RM 357738
 
@@ -9,6 +9,7 @@ Entrega do Hackathon da fase 5 da PosTech Fiap do *grupo 32*
 
 Esse projeto utiliza
 - .Net8
+- EFCore
 - Sql Server
 - RabbitMq
 - Kubernets
@@ -47,7 +48,9 @@ Para garantir escalabilidade e resiliencia ao ambiente, utilizamos o Kubernetes 
 	kubectl apply -f svc-consumidor.yaml
 
 Para acessar a aplicação utilizar: http://localhost:32100/swagger/index.html
-    para logar: usuario: usuario-fiap | senha: senha-fiap
+    para logar: 
+        - crm do medico e a senha 
+        - cpf do paciente e a senha
 
 Para conectar ao banco de dados: Server: localhost,32200 | User: sa | Password: Passw0rd
 
