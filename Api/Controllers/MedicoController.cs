@@ -38,7 +38,7 @@ namespace Api.Controllers
             {
                 var medicos = _medicoRepository.ObterTodos(especialidade);
     
-                return Ok(medicos.Select(m => new MedicoDto(m)));
+                return Ok(medicos.Select(m => new MedicoDto(m)).ToList());
             }
             catch (Exception e)
             {
