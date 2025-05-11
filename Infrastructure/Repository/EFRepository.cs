@@ -44,7 +44,14 @@ namespace Infrastructure.Repository
             => _dbSet.FirstOrDefault(entity => entity.Crm == crm);
 
 
-        public IList<Medico> ObterTodos()
-            => _dbSet.ToList();
+        public IList<Medico> ObterTodos(string? especialidade)
+        {
+            if(string.IsNullOrEmpty(especialidade))
+            {
+                return _dbSet.ToList();
+            }
+            
+            return _dbSet.Where(m => m.Especialidade == especialidade).ToList();
+        }
     }
 }

@@ -4,7 +4,7 @@ namespace Core.Repository
 {
     public interface IMedicoRepository
     {
-        IList<Medico> ObterTodos();
+        IList<Medico> ObterTodos(string? especialidade);
         Medico ObterPorCrm(string crm);
         Medico? ObterAgendaPorCrm (string crm);
         void Cadastrar(Medico entidade);

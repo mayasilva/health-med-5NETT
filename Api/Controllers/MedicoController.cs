@@ -32,20 +32,18 @@ namespace Api.Controllers
         /// <response code="401">Token inválido</response>
         [Authorize]
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult Get([FromQuery] string? especialidade)
         {
-
             try
             {
-                return Ok(_medicoRepository
-                            .ObterTodos()
-                            .Select(m => new MedicoDto(m)));
+                var medicos = _medicoRepository.ObterTodos(especialidade);
+    
+                return Ok(medicos.Select(m => new MedicoDto(m)));
             }
             catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
-
         }
 
         /// <summary>
@@ -58,7 +56,7 @@ namespace Api.Controllers
         /// <response code="401">Token inválido</response>
         [Authorize]
         [HttpGet("PorCrm/{crm}")]
-        public IActionResult Get([FromRoute] string crm)
+        public IActionResult ObterPorCrm([FromRoute] string crm)
         {
 
             try
