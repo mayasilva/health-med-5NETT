@@ -41,6 +41,24 @@ namespace Hackathon.Infrastructure.Repository
             _context.SaveChanges();
         }
 
+        public void Confirmar(int id)
+        {
+            var agendamento = _context.Set<Agendamento>().FirstOrDefault(a => a.Id == id);
+            if (agendamento == null)
+            {
+                throw new KeyNotFoundException($"Agendamento com ID {id} não encontrado.");
+            }
+
+            if (agendamento.Status != Core.Utils.Enum.EStatus.Pendente)
+            {
+                throw new InvalidOperationException($"Agendamento com ID {id} não está pendente.");
+            }
+
+            agendamento.Status = Core.Utils.Enum.EStatus.Confirmado;
+            _context.Set<Agendamento>().Update(agendamento);
+            _context.SaveChanges();
+        }
+
         IList<Agendamento> IAgendamentoRepository.ObterTodos()
             => _context.Set<Agendamento>().ToList();
 

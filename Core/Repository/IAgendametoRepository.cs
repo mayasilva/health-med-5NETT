@@ -11,5 +11,6 @@ namespace Core.Repository
         void Cadastrar(Agendamento entidade);
         void Alterar(Agendamento entidade);
         void Cancelar(int id, string justificativa); 
+        void Confirmar(int id);
     }
 }

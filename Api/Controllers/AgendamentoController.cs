@@ -109,6 +109,39 @@ namespace Api.Controllers
 
         }
 
+        /// <summary>
+        /// Necessita de autenticação via token para confirmar um agendamento
+        /// </summary>
+
+        /// <param name="id">Id do agendamento</param>
+        /// <returns>Retorna sucesso ou erro na confirmação do agendamento</returns>
+        /// <response code="200">Sucesso na execução da confirmação do agendamento na fila</response>
+        /// <response code="400">Dados inválidos ou erro na requisição</response>
+        /// <response code="401">Token inválido</response>
+        [Authorize]
+        [HttpPost("{id:int}/confirmar")]
+        public async Task<IActionResult> Post([FromRoute] int id)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var endpoint = await _bus.GetSendEndpoint(new Uri("queue:FilaConfirmacaoAgendamento"));
+                    await endpoint.Send(new IdMessage { Id = id });
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest(ModelState);
+                }
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+
+        }
+
         [Authorize]
         [HttpGet("medico/{idMedico:int}")]
         public IActionResult ObterDoMedico([FromRoute] int idMedico)

@@ -18,6 +18,7 @@ var filaAgenda = configuration.GetSection("MassTransit")["FilaAgenda"] ?? string
 var filaExclusaoAgenda = configuration.GetSection("MassTransit")["FilaExclusaoAgenda"] ?? string.Empty;
 var filaCadastroAgendamento = configuration.GetSection("MassTransit")["FilaCadastroAgendamento"] ?? string.Empty;
 var filaCancelamentoAgendamento = configuration.GetSection("MassTransit")["FilaCancelamentoAgendamento"] ?? string.Empty;
+var filaConfirmacaoAgendamento = configuration.GetSection("MassTransit")["FilaConfirmacaoAgendamento"] ?? string.Empty;
 var servidor = configuration.GetSection("MassTransit")["Servidor"] ?? string.Empty;
 var usuario = configuration.GetSection("MassTransit")["Usuario"] ?? string.Empty;
 var senha = configuration.GetSection("MassTransit")["Senha"] ?? string.Empty;
@@ -60,6 +61,11 @@ builder.Services.AddMassTransit(x =>
             e.Consumer<CancelamentoAgendamentoConsumidor>(context);
         });
 
+        cfg.ReceiveEndpoint(filaConfirmacaoAgendamento, e =>
+        {
+            e.Consumer<ConfirmacaoAgendamentoConsumidor>(context);
+        });
+
         cfg.ConfigureEndpoints(context);
     });
 
@@ -67,6 +73,7 @@ builder.Services.AddMassTransit(x =>
     x.AddConsumer<ExclusaoAgendaMedicoConsumidor>();
     x.AddConsumer<CadastroAgendamentoConsumidor>();
     x.AddConsumer<CancelamentoAgendamentoConsumidor>();
+    x.AddConsumer<ConfirmacaoAgendamentoConsumidor>();
 });
 
 
