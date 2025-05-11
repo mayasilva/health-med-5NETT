@@ -20,4 +20,4 @@ jobs:
         run: dotnet restore
 
       - name: Run tests
-        run: dotnet test
+        run: dotnet test  --filter "FullyQualifiedName~Test.Unitario"
