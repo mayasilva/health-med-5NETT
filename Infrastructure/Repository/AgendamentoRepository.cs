@@ -65,5 +65,17 @@ namespace Hackathon.Infrastructure.Repository
 
             return agendamentos;
         }
+
+        public IList<Agendamento> ObterPendentesDoMedico(int idMedico)
+        {
+             var agendamentos = _context.Set<Agendamento>()
+                .Include(a => a.Agenda.Medico)
+                .Include(a => a.Paciente)
+                .Where(a => a.Agenda.IdMedico == idMedico)
+                .Where(a => a.Status == Core.Utils.Enum.EStatus.Pendente)
+                .ToList();
+
+            return agendamentos;
+        }
     }
 }

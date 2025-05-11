@@ -6,6 +6,7 @@ namespace Core.Repository
     {
         IList<Agendamento> ObterTodos();  
         IList<Agendamento> ObterPorIdMedico(int idMedico);
+        IList<Agendamento> ObterPendentesDoMedico(int idMedico);
         IList<Agendamento> ObterPorIdPaciente(int idPaciente);
         void Cadastrar(Agendamento entidade);
         void Alterar(Agendamento entidade);
