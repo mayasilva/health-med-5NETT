@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: scv-menssageria-techchallange
+  name: svc-mensageria
   labels:
-    app: scv-menssageria-techchallange
+    app: svc-mensageria
 
 spec:
   type: NodePort
@@ -19,4 +19,4 @@ spec:
       nodePort: 31672
 
   selector:
-    app: fiap-menssageria-techchallange
+    app: fiap-mensageria

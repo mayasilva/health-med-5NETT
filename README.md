@@ -34,16 +34,17 @@ Para garantir escalabilidade e resiliencia ao ambiente, utilizamos o Kubernetes 
 
 - Subir os pods, que é onde roda as aplicações. Nesse projetos criamos um arquivo para da pod: Menssageria (RabbtMq), Banco (SQL), API e Consumidor
 
-    kubectl apply -f sql.yaml
-    kubectl apply -f menssageria.yaml
-    kubectl apply -f api.yaml
+    kubectl apply -f fiap-sql.yaml
+    kubectl apply -f fiap-mensageria.yaml
+    kubectl apply -f fiap-api.yaml
+    kubectl apply -f fiap-consumidor.yaml
 	
 - Subir os serviços, que é onde expoem as portas. Foi criado quatro services um para cara pod
 
     kubectl apply -f svc-sql.yaml
-    kubectl apply -f svc-menssageria.yaml
+    kubectl apply -f svc-mensageria.yaml
     kubectl apply -f svc-api.yaml
-	kubectl apply -f svc-worker.yaml
+	kubectl apply -f svc-consumidor.yaml
 
 Para acessar a aplicação utilizar: http://localhost:32100/swagger/index.html
     para logar: usuario: usuario-fiap | senha: senha-fiap

@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: scv-sql-techchallange
+  name: svc-sql
   labels:
-    app: scv-sql-techchallange
+    app: svc-sql
 
 spec:
   type: NodePort
@@ -14,4 +14,4 @@ spec:
       nodePort: 32200
 
   selector:
-    app: fiap-sql-techchallange
+    app: fiap-sql

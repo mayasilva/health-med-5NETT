@@ -1,17 +1,17 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: fiap-consumidor-techchallange
+  name: fiap-consumidor
   labels:
-    app: fiap-consumidor-techchallange
+    app: fiap-consumidor
 spec:
   containers:
-    - name: fiap-consumidor-techchallange
-      image: fiap-consumidor:v1
+    - name: fiap-consumidor
+      image: consumidor:v1
       ports:
         - containerPort: 8080
       env:
         - name: "CONNECTIONSTRINGS__CONNECTIONSTRING"
-          value: "Server=scv-sql-techchallange,1433;Database=TechChallangeCadastroCotatos;User ID=sa;Password=Passw0rd;TrustServerCertificate=True;"
+          value: "Server=svc-sql,1433;Database=HealthMedDb;User ID=sa;Password=Passw0rd;TrustServerCertificate=True;"
         - name: "MassTransit__Servidor"
-          value: "scv-menssageria-techchallange"
+          value: "svc-mensageria"
