@@ -12,7 +12,7 @@ namespace Core.Entity
         public int IdMedico { get; set; }
         public Medico Medico { get; set; }
 
-        public Agendamento[] Agendamentos { get; set; }
+        public IList<Agendamento> Agendamentos { get; set; }
 
     }
 }

@@ -109,5 +109,46 @@ namespace Api.Controllers
 
         }
 
+        [Authorize]
+        [HttpGet("medico/{idMedico:int}")]
+        public IActionResult ObterDoMedico([FromRoute] int idMedico)
+        {
+            try
+            {
+                var agendamentos = _agendamentoRepository.ObterPorIdMedico(idMedico);
+                if (agendamentos == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(agendamentos.Select(a => new AgendamentoDto(a)));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [Authorize]
+        [HttpGet("paciente/{idPaciente:int}")]
+        public IActionResult ObterDoPaciente([FromRoute] int idPaciente)
+        {
+            try
+            {
+                var agendamentos = _agendamentoRepository.ObterPorIdPaciente(idPaciente);
+                if (agendamentos == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(agendamentos.Select(a => new AgendamentoDto(a)));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        
+
     }
 }
