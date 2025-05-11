@@ -41,7 +41,8 @@ namespace TechChallangeCadastroContatosAPI.Controllers
 
                     var claims = new[]
                     {
-                        new Claim("id", medico.Id.ToString())
+                        new Claim("id", medico.Id.ToString()),
+                        new Claim("tipoUsuario", "medico")
                     };
 
                     var Sectoken = new JwtSecurityToken(
@@ -86,7 +87,8 @@ namespace TechChallangeCadastroContatosAPI.Controllers
 
                     var claims = new[]
                     {
-                        new Claim("id", paciente.Id.ToString())
+                        new Claim("id", paciente.Id.ToString()),
+                        new Claim("tipoUsuario", "paciente")
                     };
 
                     var Sectoken = new JwtSecurityToken(

@@ -5,6 +5,7 @@ namespace Core.Repository
     public interface IAgendamentoRepository
     {
         IList<Agendamento> ObterTodos();  
+        Agendamento? ObterPorId(int id);
         IList<Agendamento> ObterPorIdMedico(int idMedico);
         IList<Agendamento> ObterPendentesDoMedico(int idMedico);
         IList<Agendamento> ObterPorIdPaciente(int idPaciente);

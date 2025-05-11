@@ -62,6 +62,10 @@ namespace Hackathon.Infrastructure.Repository
         IList<Agendamento> IAgendamentoRepository.ObterTodos()
             => _context.Set<Agendamento>().ToList();
 
+        public Agendamento? ObterPorId(int id) => 
+            _context.Set<Agendamento>()
+                .FirstOrDefault(a => a.Id == id);
+
         public IList<Agendamento> ObterPorIdMedico(int idMedico)
         {
             var agendamentos = _context.Set<Agendamento>()

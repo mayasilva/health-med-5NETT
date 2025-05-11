@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using MassTransit;
 using Core.Entity;
 using Hackathon.Api.Dto;
+using System.Security.Claims;
+using MassTransit.Futures.Contracts;
 
 namespace Api.Controllers
 {
@@ -20,6 +22,8 @@ namespace Api.Controllers
             _agendamentoRepository = agendamentoRepository;
             _bus = bus;
         }
+        protected string GetCurrentUserId() => User.Claims.FirstOrDefault(c => c.Type == "id")?.Value;
+        protected string GetCurrentUserType() => User.Claims.FirstOrDefault(c => c.Type =="tipoUsuario")?.Value;
 
 
         /// <summary>
@@ -93,6 +97,17 @@ namespace Api.Controllers
             {
                 if (ModelState.IsValid)
                 {
+
+                    var userId = GetCurrentUserId();
+                    var userType = GetCurrentUserType();
+
+                    var agendamento = _agendamentoRepository.ObterPorId(input.IdAgendamento);
+                    if (agendamento == null)
+                        return NotFound();
+
+                    if (userType != "paciente" || agendamento.IdPaciente.ToString() != userId)
+                        return Forbid();
+
                     var endpoint = await _bus.GetSendEndpoint(new Uri("queue:FilaCancelamentoAgendamento"));
                     await endpoint.Send(input);
                     return Ok();
