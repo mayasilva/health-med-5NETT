@@ -4,12 +4,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repository
 {
-    public class EFRepository : IMedicoRepository
+    public class MedicoRepository : IMedicoRepository
     {
         protected ApplicationDbContext _context;
         protected DbSet<Medico> _dbSet;
 
-        public EFRepository(ApplicationDbContext contexto)
+        public MedicoRepository(ApplicationDbContext contexto)
         {
             _context = contexto;
             _dbSet = _context.Set<Medico>();

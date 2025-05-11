@@ -77,7 +77,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString);
 }, ServiceLifetime.Scoped);
 
-builder.Services.AddScoped<IMedicoRepository, EFRepository>();
+builder.Services.AddScoped<IMedicoRepository, MedicoRepository>();
 builder.Services.AddScoped<IPacienteRepository, PacienteRepository>();
 builder.Services.AddScoped<IAgendaRepository, AgendaRepository>();
 builder.Services.AddScoped<IAgendamentoRepository, AgendamentoRepository>();
