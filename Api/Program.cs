@@ -70,6 +70,8 @@ builder.Services.AddSwaggerGen(setup =>
         { jwtSecurityScheme, Array.Empty<string>() }
     });
 
+    setup.SchemaFilter<DateOnlySchemaFilter>();
+
 });
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
