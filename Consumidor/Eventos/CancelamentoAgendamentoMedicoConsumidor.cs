@@ -5,17 +5,17 @@ using MassTransit;
 
 namespace Consumidor.Eventos
 {
-    public class ConfirmacaoAgendamentoConsumidor : IConsumer<IdMessage>
+    public class CancelamentoAgendamentoConsumidor : IConsumer<AgendamentoCancelamentoInput>
     {
         private readonly IAgendamentoRepository _agendamentoRepository;
 
-        public ConfirmacaoAgendamentoConsumidor(IAgendamentoRepository agendamentoRepository)
+        public CancelamentoAgendamentoConsumidor(IAgendamentoRepository agendamentoRepository)
         {
             _agendamentoRepository = agendamentoRepository;
         }
-        public Task Consume(ConsumeContext<IdMessage> context)
+        public Task Consume(ConsumeContext<AgendamentoCancelamentoInput> context)
         {
-            _agendamentoRepository.Confirmar(context.Message.Id);
+            _agendamentoRepository.Cancelar(context.Message.IdAgendamento, context.Message.Justificativa);
 
             return Task.CompletedTask;
         }

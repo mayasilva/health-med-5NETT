@@ -19,20 +19,10 @@ var configuration = new ConfigurationBuilder()
     .Build();
 
 var jwtKey = Utils.CHAVE_TOKEN;
-var filaCadastro = configuration.GetSection("MassTransit")["FilaCadastro"] ?? string.Empty;
-var filaAlteracao = configuration.GetSection("MassTransit")["FilaAlteracao"] ?? string.Empty;
-var filaExclusao = configuration.GetSection("MassTransit")["FilaExclusao"] ?? string.Empty;
-var filaAgenda = configuration.GetSection("MassTransit")["FilaAgenda"] ?? string.Empty;
-var filaCadastroAgendamento = configuration.GetSection("MassTransit")["FilaCadastroAgendamento"] ?? string.Empty;
-var filaCancelamentoAgendamento = configuration.GetSection("MassTransit")["FilaCancelamentoAgendamento"] ?? string.Empty;
-var FilaConfirmacaoAgendamento = configuration.GetSection("MassTransit")["FilaConfirmacaoAgendamento"] ?? string.Empty;
 var servidor = configuration.GetSection("MassTransit")["Servidor"] ?? string.Empty;
 var usuario = configuration.GetSection("MassTransit")["Usuario"] ?? string.Empty;
 var senha = configuration.GetSection("MassTransit")["Senha"] ?? string.Empty;
 var connectionString = configuration.GetConnectionString("ConnectionString");
-
-Console.WriteLine("CHAVEE >>");
-Console.WriteLine(filaCadastro);
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
  .AddJwtBearer(options =>
@@ -89,6 +79,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddScoped<IMedicoRepository, EFRepository>();
 builder.Services.AddScoped<IPacienteRepository, PacienteRepository>();
+builder.Services.AddScoped<IAgendaRepository, AgendaRepository>();
 builder.Services.AddScoped<IAgendamentoRepository, AgendamentoRepository>();
 
 builder.Services.AddMassTransit(x =>

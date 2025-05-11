@@ -32,5 +32,15 @@ namespace Hackathon.Infrastructure.Repository
 
         IList<Agenda> IAgendaRepository.ObterTodos()
             => _context.Set<Agenda>().ToList();
+
+        public IList<Agenda> ObterDisponiveis(string crm)
+        {
+            return _context.Set<Agenda>()
+            .Where(a => a.Medico.Crm == crm)
+            .Where(a => a.Agendamentos.All(ag => ag.Status == Core.Utils.Enum.EStatus.Cancelado 
+                || ag.Status == Core.Utils.Enum.EStatus.Recusado))
+                .ToList();
+        }
+
     }
 }

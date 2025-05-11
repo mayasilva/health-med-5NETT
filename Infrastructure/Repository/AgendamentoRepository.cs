@@ -99,5 +99,18 @@ namespace Hackathon.Infrastructure.Repository
 
             return agendamentos;
         }
+
+        public void Recusar(int id)
+        {
+            var agendamento = _context.Set<Agendamento>().FirstOrDefault(a => a.Id == id);
+            if (agendamento == null)
+            {
+                throw new KeyNotFoundException($"Agendamento com ID {id} não encontrado.");
+            }
+
+            agendamento.Status = Core.Utils.Enum.EStatus.Recusado;
+            _context.Set<Agendamento>().Update(agendamento);
+            _context.SaveChanges();
+        }
     }
 }

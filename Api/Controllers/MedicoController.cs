@@ -13,11 +13,13 @@ namespace Api.Controllers
     public class MedicoController : ControllerBase
     {
         private readonly IMedicoRepository _medicoRepository;
+        private readonly IAgendaRepository _agendaRepository;
         private readonly IBus _bus;
 
-        public MedicoController(IMedicoRepository medicoRepository, IBus bus)
+        public MedicoController(IMedicoRepository medicoRepository, IAgendaRepository agendaRepository, IBus bus)
         {
             _medicoRepository = medicoRepository;
+            _agendaRepository = agendaRepository;
             _bus = bus;
         }
 
@@ -84,13 +86,13 @@ namespace Api.Controllers
         {
             try
             {
-                var medico = _medicoRepository.ObterAgendaPorCrm(crm);
-                if (medico ==null || medico.Agendas == null)
+                var agendas = _agendaRepository.ObterDisponiveis(crm);
+                if (agendas  == null)
                 {
                     return NotFound("Agenda não encontrada para o médico informado.");
                 }
 
-                return Ok(medico.Agendas.Select(a => new AgendaDto(a)));
+                return Ok(agendas.Select(a => new AgendaDto(a)));
             }
             catch (Exception e)
             {
