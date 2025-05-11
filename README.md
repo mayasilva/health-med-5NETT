@@ -20,7 +20,7 @@ Cada microserviço são responsavel por uma funcionalidade especi­fica e opera de 
 Para garantir escalabilidade e resiliencia ao ambiente, utilizamos o Kubernetes como orquestrador de containers.
 
 ## Desenho da arquitetura
-![Desenho da Arquitetura](HealthMed\img\arquitetura.jpg)
+![Desenho da Arquitetura](./img/arquitetura.jpg)
 
     
 ## Rodando o Projeto
