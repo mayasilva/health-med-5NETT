@@ -23,4 +23,4 @@ COPY --from=build-env /App/Api/out .
 #EXPOR A PORTA PARA INTERNET
 EXPOSE 8080
 
-ENTRYPOINT ["dotnet", "TechChallangeCadastroContatosAPI.dll"]
+ENTRYPOINT ["dotnet", "API.dll"]
